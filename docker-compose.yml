@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: vt_postgres
+    environment:
+      POSTGRES_USER: vt_user
+      POSTGRES_PASSWORD: vt_pass
+      POSTGRES_DB: vt_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: vt_backend
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgres://vt_user:vt_pass@db:5432/vt_db
+      JWT_SECRET: supersecretchangeme
+    depends_on:
+      - db
+    command: sh -c "npx prisma migrate deploy && node dist/server.js"
+
+  frontend:
+    build: ./frontend
+    container_name: vt_frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
