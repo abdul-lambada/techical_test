@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import healthRouter from './routes/health.js';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.js';
+import vehiclesRouter from './routes/vehicles.js';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.get('/', (_req: Request, res: Response) => {
 
 app.use('/api/health', healthRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/vehicles', vehiclesRouter);
 
 app.use((err: any, _req: any, res: any, _next: any) => {
   console.error(err);

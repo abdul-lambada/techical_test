@@ -19,6 +19,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends openssl ca-c
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY package.json ./package.json
+COPY tsconfig.json ./tsconfig.json
 COPY prisma ./prisma
 EXPOSE 4000
 CMD ["node", "dist/server.js"]

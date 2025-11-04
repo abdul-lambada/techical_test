@@ -5,7 +5,7 @@ services:
     container_name: vt_postgres
     environment:
       POSTGRES_USER: vt_user
-      POSTGRES_PASSWORD: vt_pass
+      POSTGRES_PASSWORD: .....
       POSTGRES_DB: vt_db
     ports:
       - "5432:5432"
@@ -20,11 +20,11 @@ services:
     environment:
       NODE_ENV: production
       PORT: 4000
-      DATABASE_URL: postgres://vt_user:vt_pass@db:5432/vt_db
+      DATABASE_URL: postgres://vt_user:.....@db:5432/vt_db
       JWT_SECRET: supersecretchangeme
     depends_on:
       - db
-    command: sh -c "npx prisma db push && node dist/server.js"
+    command: sh -c "npx prisma db push && npm run prisma:seed && node dist/server.js"
 
   frontend:
     build: ./frontend
